@@ -11,6 +11,10 @@
 #include "sp.h"
 #endif
 
+#ifdef __ATARI16BIT__
+#include "fujinet-bus-atari16bit.h"
+#endif
+
 uint8_t network_init()
 {
   int8_t err = 0;
@@ -24,8 +28,8 @@ uint8_t network_init()
     return FN_ERR_OK;
   }
 #endif
-
-
-
+#ifdef __ATARI16BIT__
+/* Atari 16 bit init code */
+#endif /* __ATARI16BIT__ */
   return err;
 }
