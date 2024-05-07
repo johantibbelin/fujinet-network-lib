@@ -18,6 +18,11 @@
 #include "sp.h"
 #endif
 
+#ifdef __ATARI16BIT__
+#include "fujinet-network-atari16bit.h"
+#include "fujinet-bus-atari16bit.h"
+#endif
+
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 
