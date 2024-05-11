@@ -24,18 +24,50 @@ _acsi_send_command:
  
     move.w #$ff,flock
 
-
-
+    /* Reset DMA */
     move.w #$190,dma
     move.w #$090,dma
 
+    /* Load sector count register */
+    move.w #$01,data
+
     move.w #$088,dma
-    move.l #$0009008a,data
+    
+    move.b #4,d2
+
+.loop:    
+    move.b (a1)+,d1
+    swap d1
+    move.w #$008a,d1
+    move.l d1,data
+
+    moveq.l #2,d3
+    add.l hz200,d3
+
+del20mic:
+    cmp.l hz200,d3
+    bge del200mic
+
+    move.l #600,d3
+    add.l hz200,d3
+del3sec:
+    btst.b #5,gpip
+    beq exit
+    cmp.l hz200,d3
+    bge del3sec
+
+    move.l #-1,d0
+    bra err
+exit:
+    
+
+    dbra d2,.loop
+    
 
 
-
+err:
     move.l a6,-(sp) /* Put return adr back */
-    clr.b d0 /* return 0 */
+    
     rts
 
 txt:
