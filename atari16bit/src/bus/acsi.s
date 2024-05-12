@@ -63,9 +63,20 @@ exit:
 
     dbra d2,.loop
     
+    /* Send last byte */
+    move.b (a1)+,d1
+    swap d1
+    move.w #$0000,d1
+    move.l d1,data
+
+    /* Get status byte */
+    move.b #$8a,dma
+    move.b data,d0
 
 
 err:
+    /* restore flock */
+    move.w #$00,flock
     move.l a6,-(sp) /* Put return adr back */
     
     rts
